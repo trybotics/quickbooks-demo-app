@@ -5,6 +5,12 @@ git clone https://github.com/trybotics/quickbooks-demo-app.git
 
 npm install
 
-npm start  (Backend will run on port http://localhost:8080)  
+npm start  
 
-Open http://localhost:8080/api-docs in your browser
+Backend will run on port http://localhost:8080  
+
+Swagger UI will run on port http://localhost:8080/api-docs
+
+npm run test (For testing the api)
+
+npm run dev-test (For testing the api with watcher)
