@@ -5,7 +5,7 @@ module.exports = {
 	list: function (req, res) {
 		global.qbo.findBills({}, function (err, bills) {
 			if(err){
-				res.status(500).send();
+				res.status(404).send();
 			} else {
 				res.status(200).send(bills);
 			}
@@ -15,7 +15,7 @@ module.exports = {
 	read: function (req, res) {
 		global.qbo.getBill(req.params.id, function (err, bill) {
 			if(err){
-				res.status(500).send();
+				res.status(404).send();
 			} else {
 				res.status(200).send(bill);
 			}
@@ -25,7 +25,7 @@ module.exports = {
 	create: function (req, res) {
 		global.qbo.createBill(req.body, function (err, bill) {
 			if(err){
-				res.status(500).send();
+				res.status(404).send();
 			} else {
 				res.status(200).send(bill);
 			}
@@ -35,7 +35,7 @@ module.exports = {
 	update: function (req, res) {
 		global.qbo.updateBill(req.body, function (err, bill) {
 			if(err){
-				res.status(500).send();
+				res.status(404).send();
 			} else {
 				res.status(200).send(bill);
 			}
@@ -45,7 +45,7 @@ module.exports = {
 	remove: function (req, res) {
 		global.qbo.deleteBill(req.params.id, function (err, bill) {
 			if(err){
-				res.status(500).send();
+				res.status(404).send();
 			} else {
 				res.status(200).send(bill);
 			}

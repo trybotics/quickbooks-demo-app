@@ -131,7 +131,7 @@
             "schema": {
               "example": {
                 "Id": 146,
-                "SyncToken": "1",
+                "SyncToken": "4",
                 "Line": [
                   {
                     "DetailType": "AccountBasedExpenseLineDetail", 
@@ -202,7 +202,7 @@
             "type": "integer",
             "format": "int64",
             "schema": {
-              "example": 147
+              "example": 148
             }
           }
         ],
@@ -294,7 +294,7 @@
             "schema": {
               "example": {
                 "Id": 150,
-                "SyncToken": "0",
+                "SyncToken": "3",
                 "PrivateNote": "Acct. 1JK90", 
                 "VendorRef": {
                   "name": "Bob's Burger Joint", 

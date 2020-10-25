@@ -22,7 +22,7 @@ const port = process.env.PORT || "8080";
 app.set("port", port);
 const server = http.createServer(app);
 console.log("NODE TIME ===> " + moment(new Date()).format("YYYY-MM-DD HH:mm:ss"));
-server.listen(port, () => console.log(`API running on localhost:${port}`));
+server.listen(port, () => console.log(`API running on http://localhost:${port} \nSwagger UI running on http://localhost:${port}/api-docs`));
 
 // API Router
 app.use("/api", router);
