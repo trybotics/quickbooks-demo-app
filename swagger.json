@@ -10,6 +10,20 @@
     "http"
   ],
   "paths": {
+    "/api/user/authenticate/intuit": {
+      "get": {
+        "tags": ["Intuit, Authentication"],
+        "description": "Intuit Authentication",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing parameters"
+          }
+        }
+      }
+    },
     "/api/bill/{id}": {
       "get": {
         "tags": ["Bill"],

@@ -17,8 +17,8 @@
     "swagger-ui-express": "^4.1.2"
   },
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "set MODE=production&&node server.js",
+    "dev": "set MODE=development&&nodemon server.js",
     "test": "jest",
     "dev-test": "jest --watchAll"
   },

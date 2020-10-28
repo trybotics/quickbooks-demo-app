@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quickbooks: Test App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+</head>
+
+<body>
+    <div style="margin: 30px; height: 36px; cursor: pointer; background: #1976d2; color: white;display: flex; align-items: center; justify-content: center"
+        onclick='authenticateIntuit()'>
+        <span className="bttext6" id='authenticateIntuit'>Link Your Quickbooks</span>
+    </div><br />
+    <input hidden id="upload" type="file" accept=".xlsx" onchange='handleFileSelect(event)' />
+    <label for="upload">
+        <div
+            style="margin: 30px; height: 36px; cursor: pointer; background: #1976d2; color: white;display: flex; align-items: center; justify-content: center">
+            <span className="bttext6">Upload Excel</span>
+        </div>
+    </label>
+    <script>
+        var rootURL = '%ROOT_URL%'
+        var ExcelToJSON = function () {
+
+            this.parseExcel = function (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var data = e.target.result;
+                    document.getElementById("upload").value = ""
+                    var workbook = XLSX.read(data, {
+                        type: 'binary'
+                    });
+                    workbook.SheetNames.forEach(function (sheetName) {
+                        // Here is your object
+                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                        var json_object = JSON.stringify(XL_row_object);
+                        console.log(JSON.parse(json_object));
+                        uploadExcel(json_object)
+                    })
+                };
+
+                reader.onerror = function (ex) {
+                    console.log(ex);
+                };
+
+                reader.readAsBinaryString(file);
+            };
+        };
+
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+            var xl2json = new ExcelToJSON();
+            xl2json.parseExcel(files[0]);
+        }
+
+        function authenticateIntuit() {
+            var xhttp;
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var response = JSON.parse(this.responseText)
+                    if (response.redirectURL) {
+                        window.location = response.redirectURL
+                    }
+                }
+            }
+            xhttp.open("GET", rootURL + "/api/user/authenticate/intuit", true);
+            xhttp.send();
+        }
+
+        function uploadExcel(json_object) {
+            if (json_object && json_object.length) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        alert("Excel Data Successfully Updated")
+                    } else if (this.readyState == 4 && this.status == 401) {
+                        alert("Please Link Your Quickbooks")
+                    }
+                };
+                xhttp.open("POST", rootURL + "/api/bill/bulkUpload", true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+                xhttp.send(json_object);
+            } else {
+                alert("All Fields Are Required!")
+            }
+        }
+
+        let query = window.location.search.split('?')
+        if (query.length > 0 && query[1]) {
+            query = query[1].split('=')
+            if (query[0] = 'authenticatedIntuit' && query[1]) {
+                alert('Quickbooks Authentication Successful')
+                document.getElementById('authenticateIntuit').textContent = 'Re-Link Your Quickbooks'
+            }
+        }
+
+    </script>
+</body>
+
+</html>
